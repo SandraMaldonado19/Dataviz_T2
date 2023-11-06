@@ -1,0 +1,1967 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Modelo predictivo con series de tiempo &#8212; Introducción a Dash y a Series de tiempo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=c5ced968eda925caa686" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=c5ced968eda925caa686" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=c5ced968eda925caa686" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=c5ced968eda925caa686" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=c5ced968eda925caa686" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=c5ced968eda925caa686" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=c5ced968eda925caa686"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03_ModeloPredictivo';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Dash Financiero" href="02_DockerDash_Financiero.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logouninorte.png" class="logo__image only-light" alt="Introducción a Dash y a Series de tiempo - Home"/>
+    <script>document.write(`<img src="_static/logouninorte.png" class="logo__image only-dark" alt="Introducción a Dash y a Series de tiempo - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    Introducción a Dash Y Series de tiempo
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_Despliegue_apps.html">Despliegue de aplicaciones con Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_DockerDash_Mapa.html">Dash App para Mapas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_DockerDash_Financiero.html">Dash Financiero</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Modelo predictivo con series de tiempo</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SandraMaldonado19/Dataviz_T2.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SandraMaldonado19/Dataviz_T2.git/issues/new?title=Issue%20on%20page%20%2F03_ModeloPredictivo.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/03_ModeloPredictivo.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Modelo predictivo con series de tiempo</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-del-ambiente">Creación del ambiente</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-key">API KEY</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instalacion-de-requerimientos-y-cargue-de-datos">Instalación de requerimientos y cargue de datos</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modelo-predictivo-con-series-de-tiempo">
+<h1>Modelo predictivo con series de tiempo<a class="headerlink" href="#modelo-predictivo-con-series-de-tiempo" title="Permalink to this heading">#</a></h1>
+<section id="creacion-del-ambiente">
+<h2>Creación del ambiente<a class="headerlink" href="#creacion-del-ambiente" title="Permalink to this heading">#</a></h2>
+<p>A través de la consolda de miniconda se crea un ambiente especifico para este ejercicio. Se crea, se activa y se define la carpeta donde se encontrará todos los archivos correspondientes.</p>
+<p><img alt="image.png" src="attachment:image.png" /></p>
+</section>
+<section id="api-key">
+<h2>API KEY<a class="headerlink" href="#api-key" title="Permalink to this heading">#</a></h2>
+<p>Para conectarnos a los datos que se estudiarán en este ejercicio hacemos uso del API KEY generado.</p>
+<p>API KEY: ckuin89r01qmtr8l8b30ckuin89r01qmtr8l8b3g</p>
+<p><img alt="image.png" src="attachment:image.png" /></p>
+</section>
+<section id="instalacion-de-requerimientos-y-cargue-de-datos">
+<h2>Instalación de requerimientos y cargue de datos<a class="headerlink" href="#instalacion-de-requerimientos-y-cargue-de-datos" title="Permalink to this heading">#</a></h2>
+<p>A través de la consola de miniconda se ejecuta la instalación de las librerias necesarias:</p>
+<div class="highlight-PowerShell notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">finnhub-python</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">datetime</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">seaborn</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">finnhub</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">mktime</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Para los temas</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;paper&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Para conectarnos con la data necesaria ejecutamos el siguiente código:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">finnhub_client</span> <span class="o">=</span> <span class="n">finnhub</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;ckuin89r01qmtr8l8b30ckuin89r01qmtr8l8b3g&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stock</span> <span class="o">=</span> <span class="s1">&#39;BTC&#39;</span> <span class="c1">##Data de Bitcoin</span>
+<span class="n">resolution</span> <span class="o">=</span> <span class="s1">&#39;D&#39;</span>
+
+<span class="n">end_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">start_date</span> <span class="o">=</span> <span class="n">end_date</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">365</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_date</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+<span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_date</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BTC_res</span> <span class="o">=</span> <span class="n">finnhub_client</span><span class="o">.</span><span class="n">stock_candles</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_date</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+<span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_date</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+
+<span class="n">BTC_res</span> <span class="o">=</span> <span class="n">finnhub_client</span><span class="o">.</span><span class="n">stock_candles</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+<span class="n">BTC_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">BTC_res</span><span class="p">)</span>
+
+<span class="n">BTC_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>c</th>
+      <th>h</th>
+      <th>l</th>
+      <th>o</th>
+      <th>s</th>
+      <th>t</th>
+      <th>v</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>88.9573</td>
+      <td>88.9573</td>
+      <td>88.9573</td>
+      <td>88.9573</td>
+      <td>ok</td>
+      <td>1667831400</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>89.1798</td>
+      <td>89.1801</td>
+      <td>88.8800</td>
+      <td>88.9900</td>
+      <td>ok</td>
+      <td>1667917800</td>
+      <td>3775</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>89.2600</td>
+      <td>89.3500</td>
+      <td>89.2100</td>
+      <td>89.2100</td>
+      <td>ok</td>
+      <td>1668004200</td>
+      <td>18223</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>90.4244</td>
+      <td>90.4419</td>
+      <td>90.2610</td>
+      <td>90.3900</td>
+      <td>ok</td>
+      <td>1668090600</td>
+      <td>24776</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>90.3750</td>
+      <td>90.5500</td>
+      <td>90.3650</td>
+      <td>90.5500</td>
+      <td>ok</td>
+      <td>1668177000</td>
+      <td>715</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Con el siguiente código podemos arreglar los formatos de fecha</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">date_format</span><span class="p">(</span><span class="n">date_col</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">date_col</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BTC_df</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">date_format</span><span class="p">)</span>
+<span class="n">BTC_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>c</th>
+      <th>h</th>
+      <th>l</th>
+      <th>o</th>
+      <th>s</th>
+      <th>t</th>
+      <th>v</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>88.9573</td>
+      <td>88.9573</td>
+      <td>88.9573</td>
+      <td>88.9573</td>
+      <td>ok</td>
+      <td>2022-11-07</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>89.1798</td>
+      <td>89.1801</td>
+      <td>88.8800</td>
+      <td>88.9900</td>
+      <td>ok</td>
+      <td>2022-11-08</td>
+      <td>3775</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>89.2600</td>
+      <td>89.3500</td>
+      <td>89.2100</td>
+      <td>89.2100</td>
+      <td>ok</td>
+      <td>2022-11-09</td>
+      <td>18223</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>90.4244</td>
+      <td>90.4419</td>
+      <td>90.2610</td>
+      <td>90.3900</td>
+      <td>ok</td>
+      <td>2022-11-10</td>
+      <td>24776</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>90.3750</td>
+      <td>90.5500</td>
+      <td>90.3650</td>
+      <td>90.5500</td>
+      <td>ok</td>
+      <td>2022-11-11</td>
+      <td>715</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Reescribimos los nombres de las columnas con el objetivo de que sea más fácil la lectura e interpretacion de los mismos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BTC_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="s1">&#39;Close&#39;</span><span class="p">,</span><span class="s1">&#39;h&#39;</span><span class="p">:</span><span class="s1">&#39;High&#39;</span><span class="p">,</span><span class="s1">&#39;l&#39;</span><span class="p">:</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">:</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">:</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">:</span><span class="s1">&#39;Volume&#39;</span><span class="p">},</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">BTC_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">BTC_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Close</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Open</th>
+      <th>Date</th>
+      <th>Volume</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>88.9573</td>
+      <td>88.9573</td>
+      <td>88.9573</td>
+      <td>88.9573</td>
+      <td>2022-11-07</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>89.1798</td>
+      <td>89.1801</td>
+      <td>88.8800</td>
+      <td>88.9900</td>
+      <td>2022-11-08</td>
+      <td>3775</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>89.2600</td>
+      <td>89.3500</td>
+      <td>89.2100</td>
+      <td>89.2100</td>
+      <td>2022-11-09</td>
+      <td>18223</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>90.4244</td>
+      <td>90.4419</td>
+      <td>90.2610</td>
+      <td>90.3900</td>
+      <td>2022-11-10</td>
+      <td>24776</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>90.3750</td>
+      <td>90.5500</td>
+      <td>90.3650</td>
+      <td>90.5500</td>
+      <td>2022-11-11</td>
+      <td>715</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Graficamos la serie para tener una idea de como es el comportamiento de los datos. Esto nos puede dar un indicio si la serie presenta tendencia o no.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">BTC_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Close&quot;</span><span class="p">)</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">xtix</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xtix</span><span class="p">[::</span><span class="n">freq</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3730bc1ff3a0053b3229d8744d53e4d67ccc2f7d1547a4ae9a1f60fd40fa27ed.png" src="_images/3730bc1ff3a0053b3229d8744d53e4d67ccc2f7d1547a4ae9a1f60fd40fa27ed.png" />
+</div>
+</div>
+<p>Para poder establecer un modelo de predicción para la serie de tiempo estudiada, la serie debe ser estacionaria. Es por ello, que se realiza la prueba Dickey-fuller para concluir sobre este aspecto</p>
+<p>Se instalan las librerias necesarias antes de continuar (miniconda)</p>
+<ul class="simple">
+<li><p>pip install statsmodels</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.tsa.stattools</span> <span class="kn">import</span> <span class="n">adfuller</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">log</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">adfuller</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;BTC Statistic: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;p-value: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BTC Statistic: -2.455745
+p-value: 0.126617
+</pre></div>
+</div>
+</div>
+</div>
+<p>En este caso, el valor p es 0.126617, que es mayor que 0.05. Esto significa que no podemos rechazar la hipótesis nula de que la serie de tiempo no es estacionaria. En otras palabras, la prueba de Dickey-Fuller no proporciona suficiente evidencia para concluir que la serie de tiempo es estacionaria.</p>
+<p>Los resultados de la prueba de Dickey-Fuller sugieren que la serie de tiempo BTC no es estacionaria, ya que el valor p es mayor que 0.05. Esto significa que la serie de tiempo puede tener tendencia y no es adecuada para ciertas técnicas de análisis de series de tiempo que requieren estacionariedad.</p>
+<p>Para visualizar este hecho, se expondrá las figuras de autocorrelación con el siguiente código</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">statsmodels.graphics.tsaplots</span> <span class="kn">import</span> <span class="n">plot_acf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">)})</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original Series&#39;</span><span class="p">)</span>
+<span class="n">plot_acf</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">lags</span> <span class="o">=</span> <span class="mi">240</span><span class="p">);</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">diff</span><span class="p">());</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;1st Order Differencing&#39;</span><span class="p">)</span>
+<span class="n">plot_acf</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">lags</span> <span class="o">=</span> <span class="mi">240</span><span class="p">);</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">diff</span><span class="p">());</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;2nd Order Differencing&#39;</span><span class="p">)</span>
+<span class="n">plot_acf</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">lags</span> <span class="o">=</span> <span class="mi">240</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5c6b65469799530f2a7d3abe549939c63be76b7bdc77386095158380adbb9093.png" src="_images/5c6b65469799530f2a7d3abe549939c63be76b7bdc77386095158380adbb9093.png" />
+</div>
+</div>
+<p>En este grafico se presentan tres situaciones respecto al comportamiento de la serie y autocorrelación:</p>
+<ul class="simple">
+<li><p>Serie actual. Se evidencia el comportamiento de la serie. Asimismo, se evidencia el grafico de correclación donde podemos ver que varias barras rompen los intervalos de confianza definifos. Por lo que podemos decir, que se evidencia que la serie no es estacionaria, tal como lo habiamos probado anteriormente con la prueba de Dickey Fuller.</p></li>
+<li><p>Serie diferenciada una vez. Vemos que al diferenciar la serie se vuelve más estable y su gráfico de correlación no rompe los limites del intervalo. Lo que podría sugerir la diferenciación de la serie en un nivel</p></li>
+<li><p>Serie diferenciada dos veces. Se puede notar que al diferencias la serie dos veces hay perturbaciones más notorias, apesar que su gráfico de correlación indica estacionariedad. Esto implica sobrediferenciación</p></li>
+</ul>
+<p>CONJUNTO DE ENTRENAMIENTO/TEST</p>
+<p>Para definir el conjunto de entrenamiento/test tenemos en cuenta lo conversado y se define en 28 días. De esta forma, nuestro conjunto test corresponde a los últimos 28 datos y el de entrenamiento corresponde a todos los datos menos estos 28.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_BTC</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="p">);</span> <span class="n">n_test</span> <span class="o">=</span> <span class="mi">28</span> 
+<span class="n">train_size</span> <span class="o">=</span> <span class="n">n_BTC</span> <span class="o">-</span> <span class="n">n_test</span>
+
+<span class="n">train</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">dates_train</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">test_1w</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="p">:</span><span class="n">train_size</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">]</span> 
+<span class="n">dates_1w</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="p">:</span><span class="n">train_size</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train:&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test_1w:&quot;</span><span class="p">,</span> <span class="n">test_1w</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: (222,)
+test_1w: (28,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_df</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="p">[[</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;Close&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">test_1w_df</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="p">[[</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;Close&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="p">:</span><span class="n">train_size</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">]</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>ENCONTRAR MODELO ARIMA</p>
+<p>Para encontrar el modelo arima, se utilizan las siguientes lobrerias y codigos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.tsa.arima.model</span> <span class="kn">import</span> <span class="n">ARIMA</span> <span class="c1">#libreria para encontrar arima</span>
+<span class="kn">import</span> <span class="nn">warnings</span> 
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_aic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="n">best_bic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+<span class="n">best_order</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">best_mdl</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">pq_rng</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c1">#Numero de veces que se va a aplicar el ciclo para encontrar el mejor modelo. Encontrará los mejores parametro para AR() y MA()</span>
+<span class="n">d_rng</span>  <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1">#cantidad de veces a estudiar de las posibles diferenciaciones. Por eso lo dejamos hasta 3 porque según evidenciamos anteriormente, la diferenciación de nivel dos da indicios de un sobrediferenciación.</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pq_rng</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">d_rng</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">pq_rng</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># print(i, d, j)</span>
+                <span class="n">tmp_mdl</span> <span class="o">=</span> <span class="n">ARIMA</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">j</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+                <span class="n">tmp_aic</span> <span class="o">=</span> <span class="n">tmp_mdl</span><span class="o">.</span><span class="n">aic</span>
+                <span class="k">if</span> <span class="n">tmp_aic</span> <span class="o">&lt;</span> <span class="n">best_aic</span><span class="p">:</span>
+                    <span class="n">best_aic</span> <span class="o">=</span> <span class="n">tmp_aic</span>
+                    <span class="n">best_order</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                    <span class="n">best_mdl</span> <span class="o">=</span> <span class="n">tmp_mdl</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">continue</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;aic: </span><span class="si">{:6.5f}</span><span class="s1"> | order: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">best_aic</span><span class="p">,</span> <span class="n">best_order</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>aic: 46.41841 | order: (0, 1, 0)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Esto nos indica que el mejor modelo es ARIMA (0,1,0), lo que indica que se realiza una diferenciación de primer orden y que no tiene componetes autorregresivos ni media móvil.</p>
+<p>Podemos hacer uso de una función auto arima para generar el mejor modelo con el mejor aic</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pmdarima</span> <span class="k">as</span> <span class="nn">pm</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">arima</span><span class="o">.</span><span class="n">auto_arima</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">information_criterion</span><span class="o">=</span><span class="s1">&#39;aic&#39;</span><span class="p">,</span> <span class="n">start_p</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">start_q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                       
+                      <span class="n">max_p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># Máximo p y q</span>
+                      <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>               <span class="c1"># Frecuencia de la serie</span>
+                      <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>            <span class="c1"># Dejar que el modelo determine &#39;d&#39;</span>
+                      <span class="n">seasonal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>    <span class="c1"># No hay estacionalidad</span>
+                      <span class="n">start_P</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                      <span class="n">D</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                      <span class="n">trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">error_action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span>  
+                      <span class="n">suppress_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                      <span class="n">stepwise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing stepwise search to minimize aic
+ ARIMA(1,1,1)(0,0,0)[0] intercept   : AIC=49.950, Time=0.15 sec
+ ARIMA(0,1,0)(0,0,0)[0] intercept   : AIC=48.316, Time=0.03 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,0)(0,0,0)[0] intercept   : AIC=50.268, Time=0.04 sec
+ ARIMA(0,1,1)(0,0,0)[0] intercept   : AIC=50.257, Time=0.04 sec
+ ARIMA(0,1,0)(0,0,0)[0]             : AIC=46.418, Time=0.02 sec
+
+Best model:  ARIMA(0,1,0)(0,0,0)[0]          
+Total fit time: 0.276 seconds
+</pre></div>
+</div>
+</div>
+</div>
+<p>Podemos evidenciar, que con ambos métodos llegamos a la misma conclusión. El mejor modelo obtenido para la serie de tiempo BTC correspone a un ARIMA(0,1,0)(0,0,0)[0] . Este modelo indica que se diferencia una vez, no tiene componenetes autorregresivos ni media móvil. Tampoco tiene componentes derivados de estacionalidad dado que la serie no presenta.</p>
+<p>PARA PREDECIR</p>
+<p>Se considera entonces el mejor modelo obtenido en el paso anterior, usuando inicialmente el conjunto de datos de entrenamiento</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.graphics.tsaplots</span> <span class="kn">import</span> <span class="n">plot_predict</span> <span class="c1">#libreria</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">ARIMA</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">best_order</span><span class="p">)</span>
+<span class="n">model_fit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Obtenemos los residuales del modelo ajustado</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">residuals</span><span class="o">=</span> <span class="n">model_fit</span><span class="o">.</span><span class="n">resid</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Para ser más visual, creamos un gráfico donde se evidencia la prediccion realizada junto a el conjunto de entrenamiento</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plot_predict</span><span class="p">(</span><span class="n">model_fit</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 1200x800 with 0 Axes&gt;
+</pre></div>
+</div>
+<img alt="_images/2f71a5a706b9150432642e6996a9de7c993744e586d4065eb178dab3aa4c1658.png" src="_images/2f71a5a706b9150432642e6996a9de7c993744e586d4065eb178dab3aa4c1658.png" />
+</div>
+</div>
+<p>En este gráfico se evidencia la serie original (del conjunto de datos del entrenamiento) junto con el pronostico realizado. Asimimos el intervalo de confianza de la predicción. Se pude observar inicialmente un uen comportamiento y un buen ajuste. Sin embargo, procedemos a valdiar.</p>
+<p>Revision de residuos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">residuals</span> <span class="o">=</span> <span class="n">model_fit</span><span class="o">.</span><span class="n">resid</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Obtén los residuales del modelo ARIMA</span>
+<span class="n">residuals</span> <span class="o">=</span> <span class="n">model_fit</span><span class="o">.</span><span class="n">resid</span>
+
+<span class="c1"># Crea un gráfico de los residuales excluyendo el período de tiempo 0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">residuals</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>  <span class="c1"># Excluye el primer valor (período de tiempo 0)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Gráfico de Residuales del Modelo ARIMA&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Período de Tiempo&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Residual&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/43b3226c20f31ac5dd00a467667c53f0b3fa6c92adb0d1c450e91284de83648b.png" src="_images/43b3226c20f31ac5dd00a467667c53f0b3fa6c92adb0d1c450e91284de83648b.png" />
+</div>
+</div>
+<p>En este gráfico podemos ver que los residuos no se evidencian con algun tipo de correlación o dependencia.</p>
+<p>REVISIÓN DE LA PREDICCIÓN CON RESPECTO AL CONJUNTO DE ENTRENAMIENTO</p>
+<p>Para revisión hacemos uso de métricas: MAE, MSE, MAPE, RMSE, R2 con el siguiente código.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se define un función para calcular dichas métricas</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">forecast_accuracy</span><span class="p">(</span><span class="n">forecast</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="n">str_name</span><span class="p">):</span>
+    
+    <span class="n">mape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">forecast</span> <span class="o">-</span> <span class="n">actual</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">actual</span><span class="p">))</span> <span class="c1"># MAPE</span>
+    <span class="n">mae</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">forecast</span> <span class="o">-</span> <span class="n">actual</span><span class="p">))</span>                 <span class="c1"># MAE</span>
+    <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">forecast</span> <span class="o">-</span> <span class="n">actual</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">.5</span>               <span class="c1"># RMSE</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">forecast</span> <span class="o">-</span> <span class="n">actual</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>                    <span class="c1"># MSE</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">forecast</span><span class="p">,</span> <span class="n">actual</span><span class="p">)</span>
+    
+    <span class="n">df_acc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;MAE&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">mae</span><span class="p">],</span>
+                           <span class="s1">&#39;MSE&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">mse</span><span class="p">],</span>
+                           <span class="s1">&#39;MAPE&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">mape</span><span class="p">],</span>
+                           <span class="s1">&#39;RMSE&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">rmse</span><span class="p">],</span>
+                           <span class="s1">&#39;R2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">r2</span><span class="p">]},</span>
+                          <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">str_name</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">df_acc</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">arima_rolling</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">test</span><span class="p">):</span>
+    
+    <span class="n">predictions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ARIMA</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">best_order</span><span class="p">)</span>
+        <span class="n">model_fit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">model_fit</span><span class="o">.</span><span class="n">forecast</span><span class="p">()</span>
+        <span class="n">yhat</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yhat</span><span class="p">)</span>
+        <span class="n">obs</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;predicted=</span><span class="si">%f</span><span class="s1">, expected=</span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">obs</span><span class="p">))</span>
+        
+    <span class="k">return</span> <span class="n">predictions</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Una vez, obtenido estas funciones y además el modelo. Entonces procedemos a seccionar para realizar los pronosticos</p>
+<ul class="simple">
+<li><p>Para los 7 dias
+Se define el corte para realizar el pronostico, se realzia el pronostico para los 7 días, se calculan las métricas correspondientes y se realiza prueba de normalidad para los residuales de este pronostico.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## 7 dias</span>
+<span class="n">n_BTC</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="p">);</span> <span class="n">n_test</span> <span class="o">=</span> <span class="mi">7</span> 
+<span class="n">train_size</span> <span class="o">=</span> <span class="n">n_BTC</span> <span class="o">-</span> <span class="n">n_test</span>
+
+<span class="n">train</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">dates_train</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">test_7w</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="p">:</span><span class="n">train_size</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">]</span> 
+<span class="n">dates_7w</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="p">:</span><span class="n">train_size</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train:&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test_7w:&quot;</span><span class="p">,</span> <span class="n">test_7w</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: (243,)
+test_7w: (7,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#test_7w: (7,) pronostico para 7 dias</span>
+<span class="n">test_7wl</span> <span class="o">=</span> <span class="n">test_7w</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">yhat_7w</span>  <span class="o">=</span> <span class="n">arima_rolling</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">test_7wl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predicted=88.635000, expected=88.974400
+predicted=88.974400, expected=89.069800
+predicted=89.069800, expected=88.930000
+predicted=88.930000, expected=88.897500
+predicted=88.897500, expected=89.369200
+predicted=89.369200, expected=89.574600
+predicted=89.574600, expected=90.015000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#metricas para 7 dias</span>
+<span class="n">forecast_accuracy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_7wl</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">yhat_7w</span><span class="p">),</span> <span class="s2">&quot;7 dias&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MAE</th>
+      <th>MSE</th>
+      <th>MAPE</th>
+      <th>RMSE</th>
+      <th>R2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7 dias</th>
+      <td>0.246371</td>
+      <td>0.086219</td>
+      <td>0.002765</td>
+      <td>0.293631</td>
+      <td>0.419094</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Grafico para pronostico de 7 dias</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_train</span><span class="p">[</span><span class="o">-</span><span class="mi">120</span><span class="p">:],</span> <span class="n">y</span><span class="o">=</span><span class="n">train</span><span class="p">[</span><span class="o">-</span><span class="mi">120</span><span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_7w</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">test_7wl</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_7w</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">yhat_7w</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Forecast&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">xtix</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xtix</span><span class="p">[::</span><span class="n">freq</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/07f95da4a3c56b1a393b39cf2c1b4bc36587621aa1de7bcba1d80b9b654a6493.png" src="_images/07f95da4a3c56b1a393b39cf2c1b4bc36587621aa1de7bcba1d80b9b654a6493.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##Normalidad para la prediccion de los 7 dias</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">shapiro</span>
+
+<span class="c1"># Calcula los residuales restando las predicciones reales a las predicciones</span>
+<span class="n">residuales</span> <span class="o">=</span> <span class="p">[</span><span class="n">obs</span> <span class="o">-</span> <span class="n">pred</span> <span class="k">for</span> <span class="n">obs</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">test_7wl</span><span class="p">,</span> <span class="n">yhat_7w</span><span class="p">)]</span>
+
+<span class="c1"># Realiza la prueba de normalidad de Shapiro-Wilk en los residuales</span>
+<span class="n">shapiro_stat</span><span class="p">,</span> <span class="n">shapiro_p_value</span> <span class="o">=</span> <span class="n">shapiro</span><span class="p">(</span><span class="n">residuales</span><span class="p">)</span>
+
+<span class="c1"># Imprime el resultado de la prueba de normalidad</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estadística de Shapiro-Wilk:&quot;</span><span class="p">,</span> <span class="n">shapiro_stat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P-valor de Shapiro-Wilk:&quot;</span><span class="p">,</span> <span class="n">shapiro_p_value</span><span class="p">)</span>
+
+<span class="c1"># Realiza una prueba de hipótesis para determinar si los residuales siguen una distribución normal</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># Nivel de significancia considerado para este ejercicio</span>
+<span class="k">if</span> <span class="n">shapiro_p_value</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Los residuales siguen una distribución normal (no se rechaza la hipótesis nula).&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Los residuales no siguen una distribución normal (se rechaza la hipótesis nula).&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadística de Shapiro-Wilk: 0.9418893456459045
+P-valor de Shapiro-Wilk: 0.6557924747467041
+Los residuales siguen una distribución normal (no se rechaza la hipótesis nula).
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Para los 14 dias
+Se define el corte para realizar el pronostico, se realzia el pronostico para los 14 días, se calculan las métricas correspondientes y se realiza prueba de normalidad para los residuales de este pronostico.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## 14 dias</span>
+<span class="n">n_BTC</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="p">);</span> <span class="n">n_test</span> <span class="o">=</span> <span class="mi">14</span> 
+<span class="n">train_size</span> <span class="o">=</span> <span class="n">n_BTC</span> <span class="o">-</span> <span class="n">n_test</span>
+
+<span class="n">train</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">dates_train</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">test_14w</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="p">:</span><span class="n">train_size</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">]</span> 
+<span class="n">dates_14w</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="p">:</span><span class="n">train_size</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train:&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test_14w:&quot;</span><span class="p">,</span> <span class="n">test_14w</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: (236,)
+test_14w: (14,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#test_14w: (14,) pronostico para 14 dias</span>
+<span class="n">test_14wl</span> <span class="o">=</span> <span class="n">test_14w</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">yhat_14w</span>  <span class="o">=</span> <span class="n">arima_rolling</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">test_14wl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predicted=89.145000, expected=88.690000
+predicted=88.690000, expected=88.494100
+predicted=88.494100, expected=88.430500
+predicted=88.430500, expected=88.694100
+predicted=88.694100, expected=88.881400
+predicted=88.881400, expected=88.937000
+predicted=88.937000, expected=88.635000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predicted=88.635000, expected=88.974400
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predicted=88.974400, expected=89.069800
+predicted=89.069800, expected=88.930000
+predicted=88.930000, expected=88.897500
+predicted=88.897500, expected=89.369200
+predicted=89.369200, expected=89.574600
+predicted=89.574600, expected=90.015000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#metricas para 14 dias</span>
+<span class="n">forecast_accuracy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_14wl</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">yhat_14w</span><span class="p">),</span> <span class="s2">&quot;14 dias&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MAE</th>
+      <th>MSE</th>
+      <th>MAPE</th>
+      <th>RMSE</th>
+      <th>R2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>14 dias</th>
+      <td>0.231971</td>
+      <td>0.075132</td>
+      <td>0.002607</td>
+      <td>0.274102</td>
+      <td>0.566603</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Grafico para pronostico de 14 dias</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_train</span><span class="p">[</span><span class="o">-</span><span class="mi">120</span><span class="p">:],</span> <span class="n">y</span><span class="o">=</span><span class="n">train</span><span class="p">[</span><span class="o">-</span><span class="mi">120</span><span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_14w</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">test_14wl</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_14w</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">yhat_14w</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Forecast&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">xtix</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xtix</span><span class="p">[::</span><span class="n">freq</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/78beaa131c65e85669154cdf812f1a4dd97c738fb89c6c532c0c9b79b9721011.png" src="_images/78beaa131c65e85669154cdf812f1a4dd97c738fb89c6c532c0c9b79b9721011.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##Normalidad para la prediccion de los 14 dias</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">shapiro</span>
+
+<span class="c1"># Calcula los residuales restando las predicciones reales a las predicciones</span>
+<span class="n">residuales</span> <span class="o">=</span> <span class="p">[</span><span class="n">obs</span> <span class="o">-</span> <span class="n">pred</span> <span class="k">for</span> <span class="n">obs</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">test_14wl</span><span class="p">,</span> <span class="n">yhat_14w</span><span class="p">)]</span>
+
+<span class="c1"># Realiza la prueba de normalidad de Shapiro-Wilk en los residuales</span>
+<span class="n">shapiro_stat</span><span class="p">,</span> <span class="n">shapiro_p_value</span> <span class="o">=</span> <span class="n">shapiro</span><span class="p">(</span><span class="n">residuales</span><span class="p">)</span>
+
+<span class="c1"># Imprime el resultado de la prueba de normalidad</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estadística de Shapiro-Wilk:&quot;</span><span class="p">,</span> <span class="n">shapiro_stat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P-valor de Shapiro-Wilk:&quot;</span><span class="p">,</span> <span class="n">shapiro_p_value</span><span class="p">)</span>
+
+<span class="c1"># Realiza una prueba de hipótesis para determinar si los residuales siguen una distribución normal</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># Nivel de significancia considerado para este ejercicio</span>
+<span class="k">if</span> <span class="n">shapiro_p_value</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Los residuales siguen una distribución normal (no se rechaza la hipótesis nula).&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Los residuales no siguen una distribución normal (se rechaza la hipótesis nula).&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadística de Shapiro-Wilk: 0.9775046110153198
+P-valor de Shapiro-Wilk: 0.9577539563179016
+Los residuales siguen una distribución normal (no se rechaza la hipótesis nula).
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Para los 21 dias
+Se define el corte para realizar el pronostico, se realzia el pronostico para los 21 días, se calculan las métricas correspondientes y se realiza prueba de normalidad para los residuales de este pronostico.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## 21 dias</span>
+<span class="n">n_BTC</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="p">);</span> <span class="n">n_test</span> <span class="o">=</span> <span class="mi">21</span> 
+<span class="n">train_size</span> <span class="o">=</span> <span class="n">n_BTC</span> <span class="o">-</span> <span class="n">n_test</span>
+
+<span class="n">train</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">dates_train</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">test_21w</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="p">:</span><span class="n">train_size</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">]</span> 
+<span class="n">dates_21w</span> <span class="o">=</span> <span class="n">BTC_df</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="p">:</span><span class="n">train_size</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train:&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test_21w:&quot;</span><span class="p">,</span> <span class="n">test_21w</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: (229,)
+test_21w: (21,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#test_21w: (21,) pronostico para 21 dias</span>
+<span class="n">test_21wl</span> <span class="o">=</span> <span class="n">test_21w</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">yhat_21w</span>  <span class="o">=</span> <span class="n">arima_rolling</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">test_21wl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predicted=89.070000, expected=88.889700
+predicted=88.889700, expected=89.428400
+predicted=89.428400, expected=89.355000
+predicted=89.355000, expected=89.448100
+predicted=89.448100, expected=89.150100
+predicted=89.150100, expected=89.350000
+predicted=89.350000, expected=89.145000
+predicted=89.145000, expected=88.690000
+predicted=88.690000, expected=88.494100
+predicted=88.494100, expected=88.430500
+predicted=88.430500, expected=88.694100
+predicted=88.694100, expected=88.881400
+predicted=88.881400, expected=88.937000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predicted=88.937000, expected=88.635000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predicted=88.635000, expected=88.974400
+predicted=88.974400, expected=89.069800
+predicted=89.069800, expected=88.930000
+predicted=88.930000, expected=88.897500
+predicted=88.897500, expected=89.369200
+predicted=89.369200, expected=89.574600
+predicted=89.574600, expected=90.015000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#metricas para 21 dias</span>
+<span class="n">forecast_accuracy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_21wl</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">yhat_21w</span><span class="p">),</span> <span class="s2">&quot;21 dias&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MAE</th>
+      <th>MSE</th>
+      <th>MAPE</th>
+      <th>RMSE</th>
+      <th>R2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>21 dias</th>
+      <td>0.230286</td>
+      <td>0.074257</td>
+      <td>0.002587</td>
+      <td>0.272501</td>
+      <td>0.486951</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Grafico para pronostico de 21 dias</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_train</span><span class="p">[</span><span class="o">-</span><span class="mi">120</span><span class="p">:],</span> <span class="n">y</span><span class="o">=</span><span class="n">train</span><span class="p">[</span><span class="o">-</span><span class="mi">120</span><span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_21w</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">test_21wl</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_21w</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">yhat_21w</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Forecast&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">xtix</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xtix</span><span class="p">[::</span><span class="n">freq</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/264bb4ce5535c614aa8dd5b48d3fbc4ff0a0e0d423a1e995c1dc9697cb0b20e7.png" src="_images/264bb4ce5535c614aa8dd5b48d3fbc4ff0a0e0d423a1e995c1dc9697cb0b20e7.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##Normalidad para la prediccion de los 21 dias</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">shapiro</span>
+
+<span class="c1"># Calcula los residuales restando las predicciones reales a las predicciones</span>
+<span class="n">residuales</span> <span class="o">=</span> <span class="p">[</span><span class="n">obs</span> <span class="o">-</span> <span class="n">pred</span> <span class="k">for</span> <span class="n">obs</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">test_21wl</span><span class="p">,</span> <span class="n">yhat_21w</span><span class="p">)]</span>
+
+<span class="c1"># Realiza la prueba de normalidad de Shapiro-Wilk en los residuales</span>
+<span class="n">shapiro_stat</span><span class="p">,</span> <span class="n">shapiro_p_value</span> <span class="o">=</span> <span class="n">shapiro</span><span class="p">(</span><span class="n">residuales</span><span class="p">)</span>
+
+<span class="c1"># Imprime el resultado de la prueba de normalidad</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estadística de Shapiro-Wilk:&quot;</span><span class="p">,</span> <span class="n">shapiro_stat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P-valor de Shapiro-Wilk:&quot;</span><span class="p">,</span> <span class="n">shapiro_p_value</span><span class="p">)</span>
+
+<span class="c1"># Realiza una prueba de hipótesis para determinar si los residuales siguen una distribución normal</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># Nivel de significancia considerado para este ejercicio</span>
+<span class="k">if</span> <span class="n">shapiro_p_value</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Los residuales siguen una distribución normal (no se rechaza la hipótesis nula).&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Los residuales no siguen una distribución normal (se rechaza la hipótesis nula).&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadística de Shapiro-Wilk: 0.9752776026725769
+P-valor de Shapiro-Wilk: 0.8445156812667847
+Los residuales siguen una distribución normal (no se rechaza la hipótesis nula).
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Para los 28 dias
+Se define el corte para realizar el pronostico, se realzia el pronostico para los 28 días, se calculan las métricas correspondientes y se realiza prueba de normalidad para los residuales de este pronostico.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#test_1w: (28,) pronostico para 28 dias</span>
+<span class="n">test_1wl</span> <span class="o">=</span> <span class="n">test_1w</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">yhat_1w</span>  <span class="o">=</span> <span class="n">arima_rolling</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">test_1wl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predicted=89.070000, expected=89.085600
+predicted=89.085600, expected=89.292200
+predicted=89.292200, expected=89.294600
+predicted=89.294600, expected=88.958500
+predicted=88.958500, expected=88.675000
+predicted=88.675000, expected=88.970000
+predicted=88.970000, expected=89.070000
+predicted=89.070000, expected=88.889700
+predicted=88.889700, expected=89.428400
+predicted=89.428400, expected=89.355000
+predicted=89.355000, expected=89.448100
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predicted=89.448100, expected=89.150100
+predicted=89.150100, expected=89.350000
+predicted=89.350000, expected=89.145000
+predicted=89.145000, expected=88.690000
+predicted=88.690000, expected=88.494100
+predicted=88.494100, expected=88.430500
+predicted=88.430500, expected=88.694100
+predicted=88.694100, expected=88.881400
+predicted=88.881400, expected=88.937000
+predicted=88.937000, expected=88.635000
+predicted=88.635000, expected=88.974400
+predicted=88.974400, expected=89.069800
+predicted=89.069800, expected=88.930000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predicted=88.930000, expected=88.897500
+predicted=88.897500, expected=89.369200
+predicted=89.369200, expected=89.574600
+predicted=89.574600, expected=90.015000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#metricas para 28 dias</span>
+<span class="n">forecast_accuracy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_1wl</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">yhat_1w</span><span class="p">),</span> <span class="s2">&quot;28 dias&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MAE</th>
+      <th>MSE</th>
+      <th>MAPE</th>
+      <th>RMSE</th>
+      <th>R2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>28 dias</th>
+      <td>0.216971</td>
+      <td>0.067596</td>
+      <td>0.002437</td>
+      <td>0.259992</td>
+      <td>0.429268</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Grafico para pronostico de 28 dias</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_train</span><span class="p">[</span><span class="o">-</span><span class="mi">120</span><span class="p">:],</span> <span class="n">y</span><span class="o">=</span><span class="n">train</span><span class="p">[</span><span class="o">-</span><span class="mi">120</span><span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_1w</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">test_1wl</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates_1w</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">yhat_1w</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Forecast&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">xtix</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xtix</span><span class="p">[::</span><span class="n">freq</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/cfaa32cda8126be7087aecb2f53fa968048d164d06c8319aede2347210db130c.png" src="_images/cfaa32cda8126be7087aecb2f53fa968048d164d06c8319aede2347210db130c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##Normalidad para la prediccion de los 28 dias</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">shapiro</span>
+
+<span class="c1"># Calcula los residuales restando las predicciones reales a las predicciones</span>
+<span class="n">residuales</span> <span class="o">=</span> <span class="p">[</span><span class="n">obs</span> <span class="o">-</span> <span class="n">pred</span> <span class="k">for</span> <span class="n">obs</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">test_1wl</span><span class="p">,</span> <span class="n">yhat_1w</span><span class="p">)]</span>
+
+<span class="c1"># Realiza la prueba de normalidad de Shapiro-Wilk en los residuales</span>
+<span class="n">shapiro_stat</span><span class="p">,</span> <span class="n">shapiro_p_value</span> <span class="o">=</span> <span class="n">shapiro</span><span class="p">(</span><span class="n">residuales</span><span class="p">)</span>
+
+<span class="c1"># Imprime el resultado de la prueba de normalidad</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estadística de Shapiro-Wilk:&quot;</span><span class="p">,</span> <span class="n">shapiro_stat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P-valor de Shapiro-Wilk:&quot;</span><span class="p">,</span> <span class="n">shapiro_p_value</span><span class="p">)</span>
+
+<span class="c1"># Realiza una prueba de hipótesis para determinar si los residuales siguen una distribución normal</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># Nivel de significancia considerado para este ejercicio</span>
+<span class="k">if</span> <span class="n">shapiro_p_value</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Los residuales siguen una distribución normal (no se rechaza la hipótesis nula).&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Los residuales no siguen una distribución normal (se rechaza la hipótesis nula).&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadística de Shapiro-Wilk: 0.9795772433280945
+P-valor de Shapiro-Wilk: 0.8401601910591125
+Los residuales siguen una distribución normal (no se rechaza la hipótesis nula).
+</pre></div>
+</div>
+</div>
+</div>
+<p>Resumen de metricas</p>
+<p><img alt="image.png" src="attachment:image.png" /></p>
+<p>MAE (Error Absoluto Medio): Mide cuánto se equivoca, en promedio, el pronóstico en comparación con los valores reales. Un valor más bajo es mejor, y en este caso, es mejor para el pronóstico de 28 días.</p>
+<p>MSE (Error Cuadrático Medio): Mide cuánto se equivoca, en promedio, el pronóstico, pero da más peso a los errores grandes. Un valor más bajo es mejor, y en este caso, es mejor para el pronóstico de 28 días.</p>
+<p>MAPE (Error Porcentual Absoluto Medio): Mide cuánto se equivoca, en promedio, el pronóstico como porcentaje de los valores reales. Un valor más bajo es mejor, y en este caso, es mejor para el pronóstico de 28 días.</p>
+<p>RMSE (Raíz del Error Cuadrático Medio): Es una medida similar al MSE pero más fácil de interpretar, ya que está en la misma escala que los datos. Un valor más bajo es mejor, y en este caso, es mejor para el pronóstico de 28 días.</p>
+<p>R2 (Coeficiente de Determinación): Mide qué proporción de las diferencias entre el pronóstico y los valores reales puede explicarse por el modelo. Un valor más alto es mejor, y en este caso, es mejor para el pronóstico de 14 días.</p>
+<p>En resumen, el pronóstico de 28 días tiene un mejor desempeño en términos de MAE, MSE, MAPE y RMSE, lo que indica que se equivoca menos en comparación con los valores reales. Sin embargo, el pronóstico de 14 días tiene un mejor ajuste del modelo, lo que significa que el modelo se ajusta mejor a los datos para ese período. La elección entre ambos dependerá de tus necesidades específicas.</p>
+<p>BIC revision del modelo</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pmdarima</span> <span class="k">as</span> <span class="nn">pm</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">arima</span><span class="o">.</span><span class="n">auto_arima</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">information_criterion</span><span class="o">=</span><span class="s1">&#39;bic&#39;</span><span class="p">,</span> <span class="n">start_p</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">start_q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                       
+                      <span class="n">max_p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># Máximo p y q</span>
+                      <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>               <span class="c1"># Frecuencia de la serie</span>
+                      <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>            <span class="c1"># Dejar que el modelo determine &#39;d&#39;</span>
+                      <span class="n">seasonal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>    <span class="c1"># No hay estacionalidad</span>
+                      <span class="n">start_P</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                      <span class="n">D</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                      <span class="n">trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">error_action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span>  
+                      <span class="n">suppress_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                      <span class="n">stepwise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing stepwise search to minimize bic
+ ARIMA(1,1,1)(0,0,0)[0] intercept   : BIC=82.799, Time=0.14 sec
+ ARIMA(0,1,0)(0,0,0)[0] intercept   : BIC=72.089, Time=0.03 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,0)(0,0,0)[0] intercept   : BIC=77.515, Time=0.03 sec
+ ARIMA(0,1,1)(0,0,0)[0] intercept   : BIC=77.514, Time=0.04 sec
+ ARIMA(0,1,0)(0,0,0)[0]             : BIC=66.661, Time=0.02 sec
+
+Best model:  ARIMA(0,1,0)(0,0,0)[0]          
+Total fit time: 0.260 seconds
+</pre></div>
+</div>
+</div>
+</div>
+<p>Comparacion de AIC Vs BIC</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pmdarima</span> <span class="k">as</span> <span class="nn">pm</span>
+
+<span class="c1"># Modelo ARIMA según AIC</span>
+<span class="n">model_aic</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">arima</span><span class="o">.</span><span class="n">auto_arima</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">information_criterion</span><span class="o">=</span><span class="s1">&#39;aic&#39;</span><span class="p">,</span> <span class="n">start_p</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">start_q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                       <span class="n">max_p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># Máximo p y q</span>
+                       <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>               <span class="c1"># Frecuencia de la serie</span>
+                       <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>            <span class="c1"># Dejar que el modelo determine &#39;d&#39;</span>
+                       <span class="n">seasonal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>    <span class="c1"># No hay estacionalidad</span>
+                       <span class="n">start_P</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                       <span class="n">D</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                       <span class="n">trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                       <span class="n">error_action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span>  
+                       <span class="n">suppress_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                       <span class="n">stepwise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Modelo ARIMA según BIC</span>
+<span class="n">model_bic</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">arima</span><span class="o">.</span><span class="n">auto_arima</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">information_criterion</span><span class="o">=</span><span class="s1">&#39;bic&#39;</span><span class="p">,</span> <span class="n">start_p</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">start_q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                       <span class="n">max_p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># Máximo p y q</span>
+                       <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>               <span class="c1"># Frecuencia de la serie</span>
+                       <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>            <span class="c1"># Dejar que el modelo determine &#39;d&#39;</span>
+                       <span class="n">seasonal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>    <span class="c1"># No hay estacionalidad</span>
+                       <span class="n">start_P</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                       <span class="n">D</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                       <span class="n">trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                       <span class="n">error_action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span>  
+                       <span class="n">suppress_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                       <span class="n">stepwise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Imprimir los resultados de AIC y BIC</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Modelo ARIMA según AIC:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model_aic</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Modelo ARIMA según BIC:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model_bic</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing stepwise search to minimize aic
+ ARIMA(1,1,1)(0,0,0)[0] intercept   : AIC=69.082, Time=0.13 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,0)(0,0,0)[0] intercept   : AIC=65.231, Time=0.03 sec
+ ARIMA(1,1,0)(0,0,0)[0] intercept   : AIC=67.227, Time=0.03 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(0,0,0)[0] intercept   : AIC=67.226, Time=0.04 sec
+ ARIMA(0,1,0)(0,0,0)[0]             : AIC=63.231, Time=0.02 sec
+
+Best model:  ARIMA(0,1,0)(0,0,0)[0]          
+Total fit time: 0.252 seconds
+Performing stepwise search to minimize bic
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(0,0,0)[0] intercept   : BIC=82.799, Time=0.12 sec
+ ARIMA(0,1,0)(0,0,0)[0] intercept   : BIC=72.089, Time=0.03 sec
+ ARIMA(1,1,0)(0,0,0)[0] intercept   : BIC=77.515, Time=0.03 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(0,0,0)[0] intercept   : BIC=77.514, Time=0.04 sec
+ ARIMA(0,1,0)(0,0,0)[0]             : BIC=66.661, Time=0.02 sec
+
+Best model:  ARIMA(0,1,0)(0,0,0)[0]          
+Total fit time: 0.249 seconds
+Modelo ARIMA según AIC:
+                               SARIMAX Results                                
+==============================================================================
+Dep. Variable:                      y   No. Observations:                  229
+Model:               SARIMAX(0, 1, 0)   Log Likelihood                 -30.616
+Date:                Sun, 05 Nov 2023   AIC                             63.231
+Time:                        23:41:19   BIC                             66.661
+Sample:                             0   HQIC                            64.615
+                                - 229                                         
+Covariance Type:                  opg                                         
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+sigma2         0.0766      0.005     14.891      0.000       0.067       0.087
+===================================================================================
+Ljung-Box (L1) (Q):                   0.00   Jarque-Bera (JB):                41.06
+Prob(Q):                              0.95   Prob(JB):                         0.00
+Heteroskedasticity (H):               0.80   Skew:                             0.44
+Prob(H) (two-sided):                  0.32   Kurtosis:                         4.89
+===================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+
+Modelo ARIMA según BIC:
+                               SARIMAX Results                                
+==============================================================================
+Dep. Variable:                      y   No. Observations:                  229
+Model:               SARIMAX(0, 1, 0)   Log Likelihood                 -30.616
+Date:                Sun, 05 Nov 2023   AIC                             63.231
+Time:                        23:41:19   BIC                             66.661
+Sample:                             0   HQIC                            64.615
+                                - 229                                         
+Covariance Type:                  opg                                         
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+sigma2         0.0766      0.005     14.891      0.000       0.067       0.087
+===================================================================================
+Ljung-Box (L1) (Q):                   0.00   Jarque-Bera (JB):                41.06
+Prob(Q):                              0.95   Prob(JB):                         0.00
+Heteroskedasticity (H):               0.80   Skew:                             0.44
+Prob(H) (two-sided):                  0.32   Kurtosis:                         4.89
+===================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+</pre></div>
+</div>
+</div>
+</div>
+<p>Para AIC (Criterio de Información de Akaike):</p>
+<ul class="simple">
+<li><p>Se realizaron pruebas con diferentes combinaciones de modelos ARIMA para encontrar el modelo que minimiza el valor de AIC. Las combinaciones incluyeron diferentes valores para el orden de autorregresión (p), el orden de integración (d), y el orden de media móvil (q).</p></li>
+<li><p>El mejor modelo encontrado según AIC es ARIMA(0,1,0)(0,0,0)[0] con un valor de AIC de 63.231. Este modelo tiene un orden (d) igual a 1 y no tiene componentes de autorregresión ni media móvil. El valor de AIC es una medida de que tanto se ajusta el modelo a los datos, y un valor más bajo indica un mejor ajuste.</p></li>
+</ul>
+<p>Para BIC (Criterio de Información Bayesiano):</p>
+<ul class="simple">
+<li><p>Similar al caso de AIC, se realizaron pruebas con diferentes combinaciones de modelos ARIMA para minimizar el valor de BIC.</p></li>
+<li><p>El mejor modelo encontrado según BIC es también ARIMA(0,1,0)(0,0,0)[0] con un valor de BIC de 66.661. Al igual que en el caso de AIC, este modelo tiene un orden de integración (d) igual a 1 y no tiene componentes de autorregresión ni media móvil.</p></li>
+</ul>
+<p>El modelo ARIMA seleccionado según AIC y BIC es el mismo, ARIMA(0,1,0)(0,0,0)[0]. Esto significa que este modelo es el que mejor se ajusta a los datos según ambos criterios. El valor negativo de log verosimilitud y el valor de AIC más bajo sugieren que el modelo es apropiado para el ajuste de los datos.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_DockerDash_Financiero.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Dash Financiero</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-del-ambiente">Creación del ambiente</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-key">API KEY</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instalacion-de-requerimientos-y-cargue-de-datos">Instalación de requerimientos y cargue de datos</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Sandra Maldonado - Sherine Menco
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=c5ced968eda925caa686"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=c5ced968eda925caa686"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

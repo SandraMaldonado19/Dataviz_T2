@@ -1,0 +1,812 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Dash Financiero &#8212; Introducción a Dash y a Series de tiempo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=c5ced968eda925caa686" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=c5ced968eda925caa686" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=c5ced968eda925caa686" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=c5ced968eda925caa686" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=c5ced968eda925caa686" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=c5ced968eda925caa686" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=c5ced968eda925caa686"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02_DockerDash_Financiero';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modelo predictivo con series de tiempo" href="03_ModeloPredictivo.html" />
+    <link rel="prev" title="Despliegue de aplicaciones con Docker" href="01_DockerDash_Mapa.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logouninorte.png" class="logo__image only-light" alt="Introducción a Dash y a Series de tiempo - Home"/>
+    <script>document.write(`<img src="_static/logouninorte.png" class="logo__image only-dark" alt="Introducción a Dash y a Series de tiempo - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    Introducción a Dash Y Series de tiempo
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_DockerDash_Mapa.html">Despliegue de aplicaciones con Docker</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dash Financiero</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_ModeloPredictivo.html">Modelo predictivo con series de tiempo</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SandraMaldonado19/Dataviz_T2.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SandraMaldonado19/Dataviz_T2.git/issues/new?title=Issue%20on%20page%20%2F02_DockerDash_Financiero.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02_DockerDash_Financiero.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dash Financiero</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuracion-del-entorno">Configuración del entorno</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-de-la-aplicacion">Construcción de la aplicación</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instalacion-de-requerimientos-y-cargue-de-datos">Instalación de requerimientos y cargue de datos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diseno-y-estructura-de-la-aplicacion-dash">Diseño y estructura de la aplicación Dash</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#definicion-de-una-funcion-para-calcular-las-bandas-de-bollinger">Definición de una función para calcular las bandas de Bollinger</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actualizacion-de-tablas-y-graficos">Actualización de tablas y gráficos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#codigo-completo">Código completo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-y-dokerizacion">Test y Dokerización</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="dash-financiero">
+<h1>Dash Financiero<a class="headerlink" href="#dash-financiero" title="Permalink to this heading">#</a></h1>
+<section id="configuracion-del-entorno">
+<h2>Configuración del entorno<a class="headerlink" href="#configuracion-del-entorno" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Se creó un ambiente de python en una carpeta llamada dash_task2. Para este caso, usaremos conda con los siguientes códigos:</p></li>
+</ol>
+<div class="highlight-PowerShell notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="p">-</span><span class="n">-name</span> <span class="n">taskdash_venv</span> <span class="n">python</span><span class="p">=</span><span class="n">3</span><span class="p">.</span><span class="n">9</span>
+</pre></div>
+</div>
+<div class="highlight-PowerShell notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">taskdash_venv</span>
+
+<span class="nb">cd </span><span class="s2">&quot;C:\Users\varga\OneDrive\Escritorio\dash_task2&quot;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Instale los siguientes requeremientos con los codigos a continuación en la consolda de conda:</p></li>
+</ol>
+<div class="highlight-PowerShell notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">dash</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">jupyter-dash</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Crea un archivo .py en visual code <a class="reference external" href="http://dashclass.py">dashclass.py</a></p></li>
+</ol>
+<ol class="arabic simple" start="4">
+<li><p>Luego, ejecutas el siguiente código y copias lo que te da en el navegador</p></li>
+</ol>
+<div class="highlight-Powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="p">.\</span><span class="n">dashclass</span><span class="p">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="construccion-de-la-aplicacion">
+<h2>Construcción de la aplicación<a class="headerlink" href="#construccion-de-la-aplicacion" title="Permalink to this heading">#</a></h2>
+<p>Se realizaron cambios al código inical. A continuación de expone detallado del código y, finalmente, se expresan los cambios realizados</p>
+<section id="instalacion-de-requerimientos-y-cargue-de-datos">
+<h3>Instalación de requerimientos y cargue de datos<a class="headerlink" href="#instalacion-de-requerimientos-y-cargue-de-datos" title="Permalink to this heading">#</a></h3>
+<p>Se importan todas las librerias necesarias para el desarollo del dash</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dash</span> <span class="kn">import</span> <span class="n">Dash</span><span class="p">,</span> <span class="n">dcc</span><span class="p">,</span> <span class="n">html</span><span class="p">,</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Output</span>
+<span class="kn">import</span> <span class="nn">colorlover</span> <span class="k">as</span> <span class="nn">cl</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">dash_bootstrap_components</span> <span class="k">as</span> <span class="nn">dbc</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/lihkir/Uninorte/main/AppliedStatisticMS/DataVisualizationRPython/Lectures/Python/PythonDataSets/dash-stock-ticker-demo.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Creación de la aplicación Dash y configuración del tema y las paletas de colores</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">app</span> <span class="o">=</span> <span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">DARKLY</span><span class="p">])</span> 
+</pre></div>
+</div>
+<p>Creación de una paleta de colores personalizada</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">custom_colorscale</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">scales</span><span class="p">[</span><span class="s1">&#39;9&#39;</span><span class="p">][</span><span class="s1">&#39;qual&#39;</span><span class="p">][</span><span class="s1">&#39;Set1&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="diseno-y-estructura-de-la-aplicacion-dash">
+<h3>Diseño y estructura de la aplicación Dash<a class="headerlink" href="#diseno-y-estructura-de-la-aplicacion-dash" title="Permalink to this heading">#</a></h3>
+<p>El código registrado a continuación corresponde al Front-end de una aplicación Dash para explorar datos financieros. A continuación, describiré y explicaré los cambios realizados en el código editado en comparación con el código original:</p>
+<ul class="simple">
+<li><p>Cambios en el estilo del encabezado:</p></li>
+</ul>
+<p>En el código original, el encabezado “Finance Explorer” tenía un color de texto “rgba(117, 117, 117, 0.95)”. En el código editado, el color del texto se cambió a blanco mediante el atributo ‘color’: “#FFFFFF”. Esto hace que el texto del encabezado sea blanco en lugar de gris.</p>
+<p>Se añadió un nuevo atributo ‘background-color’: “#333” en el código editado para cambiar el color de fondo del encabezado a un tono gris oscuro (#333). En el código original, no se especificaba un color de fondo, por lo que tenía un fondo transparente o predeterminado.</p>
+<ul class="simple">
+<li><p>Agregar gráficos:</p></li>
+</ul>
+<p>En el código editado, se agregaron dos componentes dcc.Graph con los identificadores ‘candlestick-graph’ y ‘bollinger-graph’ en el div con el id ‘graphs’. Estos gráficos, que no estaban presentes en el código original, se utilizarán para mostrar un gráfico de velas y un gráfico de bandas de Bollinger respectivamente.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">H2</span><span class="p">(</span><span class="s1">&#39;Finance Explorer&#39;</span><span class="p">,</span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;font-size&#39;</span><span class="p">:</span> <span class="s1">&#39;2.65em&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;font-weight&#39;</span><span class="p">:</span> <span class="s1">&#39;bolder&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;font-family&#39;</span><span class="p">:</span> <span class="s1">&#39;Product Sans&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s2">&quot;#FFFFFF&quot;</span><span class="p">,</span>  <span class="c1"># Cambio del color del texto a blanco</span>
+                       <span class="s1">&#39;margin-top&#39;</span><span class="p">:</span> <span class="s1">&#39;20px&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;margin-bottom&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;background-color&#39;</span><span class="p">:</span> <span class="s2">&quot;#333&quot;</span>  <span class="c1"># Cambio del color de fondo</span>
+                       <span class="p">}),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Img</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="s2">&quot;https://s3-us-west-1.amazonaws.com/plotly-tutorials/logo/new-branding/dash-logo-by-plotly-stripe.png&quot;</span><span class="p">,</span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;100px&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;float&#39;</span><span class="p">:</span> <span class="s1">&#39;right&#39;</span>
+                <span class="p">},</span>
+        <span class="p">),</span>
+    <span class="p">]),</span>
+    <span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;stock-ticker-input&#39;</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
+                 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Stock</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span> <span class="n">df</span><span class="o">.</span><span class="n">Stock</span><span class="o">.</span><span class="n">unique</span><span class="p">())],</span>
+        <span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;YHOO&#39;</span><span class="p">,</span> <span class="s1">&#39;GOOGL&#39;</span><span class="p">],</span>
+        <span class="n">multi</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">),</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;graphs&#39;</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;candlestick-graph&#39;</span><span class="p">),</span>  <span class="c1"># Gráfico de velas</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;bollinger-graph&#39;</span><span class="p">)</span>  <span class="c1"># Gráfico de bandas de Bollinger</span>
+    <span class="p">])</span>
+<span class="p">],</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="definicion-de-una-funcion-para-calcular-las-bandas-de-bollinger">
+<h3>Definición de una función para calcular las bandas de Bollinger<a class="headerlink" href="#definicion-de-una-funcion-para-calcular-las-bandas-de-bollinger" title="Permalink to this heading">#</a></h3>
+<p>La función <code class="docutils literal notranslate"><span class="pre">bbands</span></code> calcula las bandas de Bollinger para un conjunto de datos de precios financieros. Para ello, toma tres parámetros: la serie de precios (<code class="docutils literal notranslate"><span class="pre">price</span></code>), el tamaño de la ventana para calcular la media móvil (<code class="docutils literal notranslate"><span class="pre">window_size</span></code>), y el número de desviaciones estándar a considerar (<code class="docutils literal notranslate"><span class="pre">num_of_std</span></code>). Primero, se calcula la media móvil y la desviación estándar de los precios utilizando la ventana especificada. Luego, se utilizan estos valores para determinar la banda superior y la banda inferior de Bollinger. La banda superior se obtiene sumando <code class="docutils literal notranslate"><span class="pre">num_of_std</span></code> veces la desviación estándar a la media móvil, mientras que la banda inferior se calcula restando <code class="docutils literal notranslate"><span class="pre">num_of_std</span></code> veces la desviación estándar a la media móvil. La función devuelve la media móvil, la banda superior y la banda inferior, que son fundamentales en el análisis técnico de los mercados financieros para evaluar la volatilidad y las posibles señales de compra o venta.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bbands</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num_of_std</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">rolling_mean</span> <span class="o">=</span> <span class="n">price</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">window_size</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">rolling_std</span>  <span class="o">=</span> <span class="n">price</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">window_size</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="n">upper_band</span> <span class="o">=</span> <span class="n">rolling_mean</span> <span class="o">+</span> <span class="p">(</span><span class="n">rolling_std</span> <span class="o">*</span> <span class="n">num_of_std</span><span class="p">)</span>
+    <span class="n">lower_band</span> <span class="o">=</span> <span class="n">rolling_mean</span> <span class="o">-</span> <span class="p">(</span><span class="n">rolling_std</span> <span class="o">*</span> <span class="n">num_of_std</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rolling_mean</span><span class="p">,</span> <span class="n">upper_band</span><span class="p">,</span> <span class="n">lower_band</span>
+</pre></div>
+</div>
+</section>
+<section id="actualizacion-de-tablas-y-graficos">
+<h3>Actualización de tablas y gráficos<a class="headerlink" href="#actualizacion-de-tablas-y-graficos" title="Permalink to this heading">#</a></h3>
+<p>En el código editado, la función <code class="docutils literal notranslate"><span class="pre">update_graph</span></code> tiene dos salidas (Outputs): ‘candlestick-graph’ y ‘bollinger-graph’, que corresponden a dos gráficos diferentes: el gráfico de velas (candlestick) y el gráfico de bandas de Bollinger. Estos dos gráficos se actualizarán por separado.
+En lugar de devolver una lista de gráficos, la función crea diccionarios para cada uno de los gráficos (candlestick_graph y bollinger_graph). Cada diccionario contiene un campo ‘data’ y un campo ‘layout’, que definen la información y la configuración del gráfico.
+Se utiliza la biblioteca Plotly (mediante go.Candlestick y go.Scatter) para configurar y crear los gráficos, lo que proporciona un mayor control sobre su apariencia y comportamiento</p>
+<p>El código proporcionado configura dos tipos de gráficos, uno de velas (candlestick) y otro de bandas de Bollinger, que se utilizarán en una aplicación financiera. Cada gráfico se configura para mostrar datos específicos de acciones seleccionadas por el usuario en un menú desplegable. El gráfico de velas representa los precios de apertura, máximos, mínimos y cierre en un período de tiempo, y se personaliza con colores diferenciados para velas alcistas y bajistas. El gráfico de bandas de Bollinger representa una banda calculada en función de los precios de cierre y muestra cómo los precios se desvían de una media móvil.</p>
+<p>Estos gráficos se configuran dinámicamente para cada acción seleccionada por el usuario, lo que permite una exploración detallada de los datos financieros. El código se asegura de que las trazas de cada acción se agrupen en la leyenda y se gestionen las leyendas en el gráfico de bandas de Bollinger.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">([</span>
+    <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;candlestick-graph&#39;</span><span class="p">,</span> <span class="s1">&#39;figure&#39;</span><span class="p">),</span>
+    <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;bollinger-graph&#39;</span><span class="p">,</span> <span class="s1">&#39;figure&#39;</span><span class="p">)</span>
+<span class="p">],</span> <span class="p">[</span>
+    <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;stock-ticker-input&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="k">def</span> <span class="nf">update_graph</span><span class="p">(</span><span class="n">tickers</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tickers</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{},</span> <span class="p">{}</span>
+
+    <span class="n">candlestick_graph</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;layout&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="n">bollinger_graph</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;layout&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tickers</span><span class="p">):</span>
+        <span class="n">dff</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ticker</span><span class="p">]</span>
+
+        <span class="c1"># Configuración del gráfico de velas (candlestick)</span>
+        <span class="n">candlestick_trace</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Candlestick</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">dff</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">],</span>
+            <span class="nb">open</span><span class="o">=</span><span class="n">dff</span><span class="p">[</span><span class="s1">&#39;Open&#39;</span><span class="p">],</span>
+            <span class="n">high</span><span class="o">=</span><span class="n">dff</span><span class="p">[</span><span class="s1">&#39;High&#39;</span><span class="p">],</span>
+            <span class="n">low</span><span class="o">=</span><span class="n">dff</span><span class="p">[</span><span class="s1">&#39;Low&#39;</span><span class="p">],</span>
+            <span class="n">close</span><span class="o">=</span><span class="n">dff</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">ticker</span><span class="p">,</span>
+            <span class="n">legendgroup</span><span class="o">=</span><span class="n">ticker</span><span class="p">,</span>
+            <span class="n">increasing_line_color</span><span class="o">=</span><span class="n">custom_colorscale</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">decreasing_line_color</span><span class="o">=</span><span class="n">custom_colorscale</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+
+<span class="c1"># Configuración del gráfico para las bandas de Bollinger</span>
+        <span class="n">bollinger_traces</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">dff</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">bbands</span><span class="p">(</span><span class="n">dff</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span>
+            <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">custom_colorscale</span><span class="p">[(</span><span class="n">i</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">custom_colorscale</span><span class="p">)]),</span>
+            <span class="n">hoverinfo</span><span class="o">=</span><span class="s1">&#39;x+y&#39;</span><span class="p">,</span>  <span class="c1"># Muestra el valor en el eje x (Fecha) y el valor en el eje y (Valor de la banda)</span>
+            <span class="n">legendgroup</span><span class="o">=</span><span class="n">ticker</span><span class="p">,</span>
+            <span class="n">showlegend</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> - bollinger bands&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">candlestick_graph</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">candlestick_trace</span><span class="p">)</span>
+        <span class="n">bollinger_graph</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bollinger_traces</span><span class="p">)</span>
+
+    <span class="n">candlestick_graph</span><span class="p">[</span><span class="s1">&#39;layout&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;margin&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">candlestick_graph</span><span class="p">,</span> <span class="n">bollinger_graph</span>
+</pre></div>
+</div>
+</section>
+<section id="codigo-completo">
+<h3>Código completo<a class="headerlink" href="#codigo-completo" title="Permalink to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span>from dash import Dash, dcc, html, Input, Output
+import pandas as pd
+import dash_bootstrap_components as dbc
+import plotly.graph_objs as go
+import colorlover as cl
+
+
+app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
+
+custom_colorscale = cl.scales[&#39;9&#39;][&#39;qual&#39;][&#39;Set1&#39;]
+
+df = pd.read_csv(&#39;https://raw.githubusercontent.com/lihkir/Uninorte/main/AppliedStatisticMS/DataVisualizationRPython/Lectures/Python/PythonDataSets/dash-stock-ticker-demo.csv&#39;)
+
+app.layout = html.Div([
+    html.Div([
+        html.H2(&#39;Finance Explorer&#39;,
+                style={&#39;display&#39;: &#39;inline&#39;,
+                       &#39;font-size&#39;: &#39;2.65em&#39;,
+                       &#39;font-weight&#39;: &#39;bolder&#39;,
+                       &#39;font-family&#39;: &#39;Product Sans&#39;,
+                       &#39;color&#39;: &quot;#FFFFFF&quot;,
+                       &#39;margin-top&#39;: &#39;20px&#39;,
+                       &#39;margin-bottom&#39;: &#39;0&#39;,
+                       &#39;background-color&#39;: &quot;#333&quot;
+                       }),
+        html.Img(src=&quot;https://s3-us-west-1.amazonaws.com/plotly-tutorials/logo/new-branding/dash-logo-by-plotly-stripe.png&quot;,
+                style={
+                    &#39;height&#39;: &#39;100px&#39;,
+                    &#39;float&#39;: &#39;right&#39;
+                },
+        ),
+    ]),
+    dcc.Dropdown(
+        id=&#39;stock-ticker-input&#39;,
+        options=[{&#39;label&#39;: s[0], &#39;value&#39;: str(s[1])}
+                 for s in zip(df.Stock.unique(), df.Stock.unique())],
+        value=[&#39;YHOO&#39;, &#39;GOOGL&#39;],
+        multi=True
+    ),
+    html.Div(id=&#39;graphs&#39;, children=[
+        dcc.Graph(id=&#39;candlestick-graph&#39;),
+        dcc.Graph(id=&#39;bollinger-graph&#39;)
+    ])
+], className=&quot;container&quot;)
+
+def bbands(price, window_size=10, num_of_std=2):
+    rolling_mean = price.rolling(window=window_size).mean()
+    rolling_std  = price.rolling(window=window_size).std()
+    upper_band = rolling_mean + (rolling_std * num_of_std)
+    lower_band = rolling_mean - (rolling_std * num_of_std)
+    return rolling_mean, upper_band, lower_band
+
+@app.callback([
+    Output(&#39;candlestick-graph&#39;, &#39;figure&#39;),
+    Output(&#39;bollinger-graph&#39;, &#39;figure&#39;)
+], [
+    Input(&#39;stock-ticker-input&#39;, &#39;value&#39;)
+])
+def update_graph(tickers):
+    if not tickers:
+        return {}, {}
+
+    candlestick_graph = {&#39;data&#39;: [], &#39;layout&#39;: {}}
+    bollinger_graph = {&#39;data&#39;: [], &#39;layout&#39;: {}}
+
+    for i, ticker in enumerate(tickers):
+        dff = df[df[&#39;Stock&#39;] == ticker]
+
+        # Configuración del gráfico de velas (candlestick)
+        candlestick_trace = go.Candlestick(
+            x=dff[&#39;Date&#39;],
+            open=dff[&#39;Open&#39;],
+            high=dff[&#39;High&#39;],
+            low=dff[&#39;Low&#39;],
+            close=dff[&#39;Close&#39;],
+            name=ticker,
+            legendgroup=ticker,
+            increasing_line_color=custom_colorscale[0],
+            decreasing_line_color=custom_colorscale[1]
+        )
+
+        # Configuración del gráfico para las bandas de Bollinger
+        bollinger_traces = go.Scatter(
+            x=dff[&#39;Date&#39;],
+            y=bbands(dff[&#39;Close&#39;])[0],
+            mode=&#39;lines&#39;,
+            line=dict(width=1, color=custom_colorscale[(i * 2) % len(custom_colorscale)]),
+            hoverinfo=&#39;x+y&#39;,  # Muestra el valor en el eje x (Fecha) y el valor en el eje y (Valor de la banda)
+            legendgroup=ticker,
+            showlegend=True if i == 0 else False,
+            name=&#39;{} - bollinger bands&#39;.format(ticker)
+        )
+
+        candlestick_graph[&#39;data&#39;].append(candlestick_trace)
+        bollinger_graph[&#39;data&#39;].append(bollinger_traces)
+
+    candlestick_graph[&#39;layout&#39;] = {
+        &#39;margin&#39;: {&#39;b&#39;: 0, &#39;r&#39;: 10, &#39;l&#39;: 60, &#39;t&#39;: 0},
+        &#39;legend&#39;: {&#39;x&#39;: 0}
+    }
+
+    return candlestick_graph, bollinger_graph
+
+if __name__ == &#39;__main__&#39;:
+    app.run_server(debug=True, host=&#39;0.0.0.0&#39;, port=9000)
+
+
+
+```
+</pre></div>
+</div>
+</section>
+</section>
+<section id="test-y-dokerizacion">
+<h2>Test y Dokerización<a class="headerlink" href="#test-y-dokerizacion" title="Permalink to this heading">#</a></h2>
+<p>Se emplearon los mismos procedimientos que en la sección anterior asociada a la app para mapas</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_DockerDash_Mapa.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Despliegue de aplicaciones con Docker</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_ModeloPredictivo.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Modelo predictivo con series de tiempo</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuracion-del-entorno">Configuración del entorno</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-de-la-aplicacion">Construcción de la aplicación</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instalacion-de-requerimientos-y-cargue-de-datos">Instalación de requerimientos y cargue de datos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diseno-y-estructura-de-la-aplicacion-dash">Diseño y estructura de la aplicación Dash</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#definicion-de-una-funcion-para-calcular-las-bandas-de-bollinger">Definición de una función para calcular las bandas de Bollinger</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actualizacion-de-tablas-y-graficos">Actualización de tablas y gráficos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#codigo-completo">Código completo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-y-dokerizacion">Test y Dokerización</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Sandra Maldonado - Sherine Menco
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=c5ced968eda925caa686"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=c5ced968eda925caa686"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
